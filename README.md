@@ -36,6 +36,9 @@
     </a>
     <a href="https://github.com/cipherattacks" title="cipherattacks">
       <img src="https://avatars.githubusercontent.com/u/231347775?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks">
+    </a>
+    <a href="https://github.com/damensmoking-glitch" title="damensmoking-glitch">
+      <img src="https://avatars.githubusercontent.com/u/250682836?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="damensmoking-glitch">
     </a></div>
 <br/>
 <!-- END_WALL -->
