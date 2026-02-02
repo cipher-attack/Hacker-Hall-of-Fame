@@ -30,6 +30,9 @@
     </a>
     <a href="https://github.com/cipherattacks1-lgtm" title="cipherattacks1-lgtm">
       <img src="https://avatars.githubusercontent.com/u/250751100?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks1-lgtm">
+    </a>
+    <a href="https://github.com/cipherattacks50-rgb" title="cipherattacks50-rgb">
+      <img src="https://avatars.githubusercontent.com/u/250681196?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks50-rgb">
     </a></div>
 <br/>
 <!-- END_WALL -->
