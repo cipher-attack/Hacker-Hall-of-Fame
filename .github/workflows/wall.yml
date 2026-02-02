@@ -2,11 +2,11 @@ name: Update Wall
 
 on:
   watch:
-    types: [started]
-  workflow_dispatch:
+    types: [started]  # ሰው Star ሲያደርግ ብቻ ይነሳል
+  workflow_dispatch:  # እራስህ Run ማድረግ ከፈለግክ
 
 jobs:
-  build-wall:
+  build-hall-of-fame:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,71 +19,86 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Fetch Stargazers and Rebuild Wall
+    - name: Rebuild the Wall
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REPO_NAME: ${{ github.repository }}
       run: |
+        # አስፈላጊ የሆኑ Library መጫን
+        pip install requests
+
         python -c "
         import os
         import requests
         import sys
 
+        # 1. መረጃዎችን ማሰባሰብ
         repo = os.environ['REPO_NAME']
         token = os.environ['GH_TOKEN']
-        
-        # 1. መረጃውን ከ GitHub API ማምጣት (ትክክለኛውን መረጃ ብቻ)
         headers = {'Authorization': f'token {token}'}
+
+        print(f'Fetching Stargazers for {repo}...')
+
+        # GitHub API ተጠቅመን እስከ 100 የሚሆኑ Star ያደረጉ ሰዎችን እናመጣለን
         try:
-            r = requests.get(f'https://api.github.com/repos/{repo}/stargazers', headers=headers)
+            url = f'https://api.github.com/repos/{repo}/stargazers?per_page=100'
+            r = requests.get(url, headers=headers)
+            r.raise_for_status()
             users = r.json()
         except Exception as e:
-            print('API Error:', e)
+            print(f'Error fetching stars: {e}')
             sys.exit(1)
 
-        # 2. የ Grid HTML ማዘጋጀት (ፕሮ ፌስ ብቻ)
-        html_content = '<div style=\"display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;\">'
-        
+        # 2. የHTML Grid ማዘጋጀት (Smart Layout)
+        # እዚህ ጋር የምንሰራው ንጹህ አቀማመጥ ነው
+        html_content = '<div align=\"center\" style=\"display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;\">'
+
         for user in users:
-            # ሉፕ ውስጥ ሆኖ ስማቸውን እና ፎቷቸውን ያዘጋጃል
-            u_name = user['login']
-            u_avatar = user['avatar_url']
-            u_url = user['html_url']
+            login = user['login']
+            avatar = user['avatar_url']
+            profile_url = user['html_url']
             
-            card = f'''
-            <a href=\"{u_url}\" title=\"{u_name}\">
-                <img src=\"{u_avatar}\" width=\"50\" height=\"50\" style=\"border-radius: 50%; border: 2px solid #FFD700;\" alt=\"{u_name}\">
-            </a>
-            '''
-            html_content += card
+            # የእያንዳንዱ ሰው ካርድ (Card)
+            user_card = f'''
+            <a href=\"{profile_url}\" title=\"{login}\">
+              <img src=\"{avatar}\" width=\"55\" height=\"55\" style=\"border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);\" alt=\"{login}\">
+            </a>'''
             
+            html_content += user_card
+
         html_content += '</div>'
 
-        # 3. ፋይሉን ማንበብ እና ቦታውን መተካት
+        # 3. README.md ፋይልን አንብቦ ማደስ
         file_path = 'README.md'
-        with open(file_path, 'r') as f:
-            readme = f.read()
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                readme = f.read()
 
-        start_marker = '<!-- START_WALL -->'
-        end_marker = '<!-- END_WALL -->'
+            start_marker = '<!-- START_WALL -->'
+            end_marker = '<!-- END_WALL -->'
 
-        if start_marker in readme and end_marker in readme:
-            # ከመጀመሪያው ማርከር እስከ መጨረሻው ማርከር ያለውን በሙሉ በአዲሱ HTML ይተካል
-            # ይሄ ነው ድግግሞሽን የሚያጠፋው ማጂክ
-            part1 = readme.split(start_marker)[0]
-            part2 = readme.split(end_marker)[1]
-            
-            new_readme = f'{part1}{start_marker}\n{html_content}\n{end_marker}{part2}'
-            
-            with open(file_path, 'w') as f:
-                f.write(new_readme)
-            print('Wall rebuilt successfully!')
-        else:
-            print('Markers not found!')
+            if start_marker in readme and end_marker in readme:
+                # ከ Start እስከ End ያለውን ቆርጠን በአዲሱ ንጹህ ሊስት እንተካለን
+                before = readme.split(start_marker)[0]
+                after = readme.split(end_marker)[1]
+                
+                # አዲሱን ፋይል መፍጠር
+                new_readme = f'{before}{start_marker}\n<br/>\n{html_content}\n<br/>\n{end_marker}{after}'
+                
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(new_readme)
+                print('Success: Wall rebuilt with valid stars.')
+            else:
+                print('Error: Could not find HTML markers in README.')
+                sys.exit(1)
+        except Exception as e:
+            print(f'File Error: {e}')
+            sys.exit(1)
         "
 
-    - name: Commit Changes
+    - name: Commit and Push
       run: |
-        git config --global user.name "Wall-Bot"
-        git config --global user.email "bot@cipher.com"
-        git diff --quiet || (git add README.md && git commit -m "🚧 Rebuilt the Wall" && git push)
+        git config --global user.name "Hall-Of-Fame-Bot"
+        git config --global user.email "bot@cipher.army"
+        # ለውጥ ካለ ብቻ Commit አድርግ (Error እንዳይፈጥር)
+        git diff --quiet || (git add README.md && git commit -m "👑 Updated the Throne Room" && git push)
