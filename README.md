@@ -28,20 +28,20 @@
     <a href="https://github.com/unkownsacks-png" title="unkownsacks-png">
       <img src="https://avatars.githubusercontent.com/u/250751322?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="unkownsacks-png">
     </a>
-    <a href="https://github.com/cipherattacks1-lgtm" title="cipherattacks1-lgtm">
-      <img src="https://avatars.githubusercontent.com/u/250751100?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks1-lgtm">
+    <a href="https://github.com/market-insider" title="market-insider">
+      <img src="https://avatars.githubusercontent.com/u/250751100?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="market-insider">
     </a>
-    <a href="https://github.com/cipherattacks50-rgb" title="cipherattacks50-rgb">
-      <img src="https://avatars.githubusercontent.com/u/250681196?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks50-rgb">
+    <a href="https://github.com/rexohtought" title="rexohtought">
+      <img src="https://avatars.githubusercontent.com/u/250681196?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="rexohtought">
     </a>
-    <a href="https://github.com/cipherattacks" title="cipherattacks">
-      <img src="https://avatars.githubusercontent.com/u/231347775?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks">
+    <a href="https://github.com/ethiopians" title="ethiopians">
+      <img src="https://avatars.githubusercontent.com/u/231347775?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="ethiopians">
     </a>
-    <a href="https://github.com/damensmoking-glitch" title="damensmoking-glitch">
-      <img src="https://avatars.githubusercontent.com/u/250682836?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="damensmoking-glitch">
+    <a href="https://github.com/redteam-coder" title="redteam-coder">
+      <img src="https://avatars.githubusercontent.com/u/250682836?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="redteam-coder">
     </a>
-    <a href="https://github.com/cipherattacks-pixel" title="cipherattacks-pixel">
-      <img src="https://avatars.githubusercontent.com/u/250750878?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipherattacks-pixel">
+    <a href="https://github.com/unknown-sacks" title="unknown-sacks">
+      <img src="https://avatars.githubusercontent.com/u/250750878?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="unknown-sacks">
     </a></div>
 <br/>
 <!-- END_WALL -->
