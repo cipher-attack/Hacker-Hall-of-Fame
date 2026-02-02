@@ -1,24 +1,25 @@
-name: Update Community Wall
+name: Update Hall of Fame
 
 on:
   watch:
-    types: [started]  # አንድ ሰው STAR ሲያደርግ ብቻ ይነሳል
+    types: [started]  # Trigger on Star
+  workflow_dispatch:  # Manual Trigger
 
 jobs:
-  add-user:
+  inject-face:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # ፎቶውን ለመለጠፍ የመፃፍ ፈቃድ ያስፈልገዋል
+      contents: write 
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Python Setup
+    - name: Python Script
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    - name: Update README with New Member
+    - name: Add User to Grid
       env:
         USER_LOGIN: ${{ github.actor }}
         USER_AVATAR: ${{ github.event.sender.avatar_url }}
@@ -30,8 +31,9 @@ jobs:
         user_avatar = os.environ['USER_AVATAR']
         user_url = os.environ['USER_URL']
         
-        # የ Hacker Style አዶ ዝግጅት (ክብ ፎቶ ከቀይ ፍሬም ጋር)
-        new_entry = f'<a href=\"{user_url}\" title=\"{user_login}\"><img src=\"{user_avatar}\" width=\"60\" style=\"border-radius: 50%; border: 2px solid #FF0000; margin: 5px;\" /></a>'
+        # PRO STYLE: Circular Image with Tooltip and Gold/Red Border
+        # ስክሪፕቱ አዲስ መስመር አይፈጥርም (No newline char)
+        new_entry = f'<a href=\"{user_url}\" title=\"{user_login}\"><img src=\"{user_avatar}\" width=\"50px\" style=\"border-radius: 50%; border: 2px solid #FFD700; margin: 3px; box-shadow: 0px 0px 5px rgba(255, 215, 0, 0.5);\" /></a> '
 
         file_path = 'README.md'
         
@@ -39,28 +41,30 @@ jobs:
             with open(file_path, 'r') as f:
                 content = f.read()
             
-            # ሰውየው አስቀድሞ ካለ መድገም አያስፈልግም
+            # Check if user exists
             if user_login in content:
-                print(f'User {user_login} is already in the alliance.')
+                print(f'User {user_login} is already a King.')
                 sys.exit(0)
 
-            # ቦታውን መለየት (Makers)
+            # Find markers
             start_marker = '<!-- STARG_START -->'
             end_marker = '<!-- STARG_END -->'
             
+            # The regex ensures we insert between markers without deleting existing ones
             pattern = re.compile(f'({start_marker})(.*?)({end_marker})', re.DOTALL)
             match = pattern.search(content)
             
             if match:
                 current_members = match.group(2)
-                # አዲሱን ሰው ከፊት መጨመር
-                new_content = content.replace(current_members, f'\n{new_entry}{current_members}')
+                # Append NEW user right after the start marker (At the front)
+                # ያስተውሉ፡ እዚህ ጋር ምንም \n (NewLine) የለም።
+                new_content = content.replace(current_members, f'{new_entry}{current_members}')
                 
                 with open(file_path, 'w') as f:
                     f.write(new_content)
-                print(f'Successfully added {user_login} to the wall.')
+                print(f'Successfully added {user_login} to the throne.')
             else:
-                print('Error: Could not find markers in README.')
+                print('Error: Throne markers not found.')
                 sys.exit(1)
 
         except Exception as e:
@@ -68,9 +72,8 @@ jobs:
             sys.exit(1)
         "
 
-    - name: Commit and Push
+    - name: Commit Change
       run: |
-        git config --global user.name "Hacker-Hall-of-Fame"
-        git config --global user.email "bot@cipher-attack.com"
-        # ለውጥ ካለ ብቻ ነው Commit የሚያደርገው
-        git diff --quiet && git diff --staged --quiet || (git add README.md && git commit -m "🔥 New Alliance Member: ${{ github.actor }}" && git push)
+        git config --global user.name "Royal-Guard-Bot"
+        git config --global user.email "guard@cipher.kingdom"
+        git diff --quiet && git diff --staged --quiet || (git add README.md && git commit -m "👑 A new King has arrived: ${{ github.actor }}" && git push)
