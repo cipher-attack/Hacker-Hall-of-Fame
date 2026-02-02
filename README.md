@@ -9,7 +9,7 @@
     To join the alliance and etch your face into this database forever:
   </p>
 
-  <h2>👉 <a href="https://github.com/cipher-attack/Cipher-Alliance/stargazers">STAR THIS REPOSITORY</a> 👈</h2>
+  <h2>👉 <a href="https://github.com/cipher-attack/Hacker-Hall-of-Fame/stargazers">STAR THIS REPOSITORY</a> 👈</h2>
   <p>Our bot is watching. As soon as you Star, you will be added below automatically.</p>
 
   <br>
