@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbegnoch IT Lab - Biruk & Mihret</title>
+    <style>
+        /* =========================================
+           1. CSS VARIABLES & RESET (The Foundation)
+           ========================================= */
+        :root {
+            --green-primary: #00ff41; /* Neon Matrix Green */
+            --green-dark: #008000;    /* Arbegnoch Uniform Green */
+            --white: #ffffff;         /* Uniform White */
+            --bg-color: #051008;      /* Deep dark green background */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(0, 255, 65, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Hide default cursor for custom cursor */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--green-dark); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--green-primary); }
+
+        /* =========================================
+           2. CUSTOM CURSOR
+           ========================================= */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: var(--green-primary);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 2px solid var(--green-primary);
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* =========================================
+           3. BACKGROUND CANVAS (Interactive Particles)
+           ========================================= */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1; /* Behind everything */
+        }
+
+        /* =========================================
+           4. HERO SECTION & GLITCH ANIMATION
+           ========================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .school-badge {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            color: var(--green-primary);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: fadeInDown 2s ease;
+        }
+
+        /* Glitch Effect for Names */
+        .glitch-wrapper {
+            position: relative;
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            z-index: 1;
+        }
+        
+        .glitch {
+            position: relative;
+            color: var(--white);
+            text-shadow: 0 0 20px var(--green-primary);
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            color: var(--green-primary);
+            z-index: -2;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+            20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 2px); }
+            40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, -2px); }
+            60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 1px); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
+            100% { clip-path: inset(5% 0 80% 0); transform: translate(-1px, -1px); }
+        }
+
+        /* Typing Effect for Subtitle */
+        .typing-container {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: var(--white);
+            border-right: 2px solid var(--green-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 4s steps(40) 1s forwards, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing { to { width: 100%; } }
+        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           5. 3D GLASSMORPHISM CARDS SECTION
+           ========================================= */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--white);
+            margin: 50px 0;
+            text-shadow: 0 0 10px var(--green-dark);
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px;
+            perspective: 1000px; /* Gives the 3D depth */
+            flex-wrap: wrap;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            width: 320px;
+            height: 400px;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 255, 65, 0.2);
+            transition: transform 0.1s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        /* 3D Content inside the card */
+        .card-content {
+            transform: translateZ(60px); /* Pops out of the card */
+        }
+
+        .glass-card h2 {
+            color: var(--green-primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .glass-card p {
+            color: var(--white);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-btn {
+            background: transparent;
+            color: var(--green-primary);
+            border: 2px solid var(--green-primary);
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .card-btn:hover {
+            background: var(--green-primary);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--green-primary);
+        }
+
+        /* =========================================
+           6. HACKER TERMINAL SECTION
+           ========================================= */
+        .terminal-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--green-primary);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            font-family: monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .terminal-body {
+            color: var(--green-primary);
+            font-size: 1.2rem;
+            line-height: 1.5;
+            min-height: 200px;
+        }
+        
+        .sys-text { display: none; } /* Hidden initially for JS reveal */
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Background Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="school-badge">Arbegnoch High School • Grade 12</div>
+        <div class="glitch-wrapper">
+            <div class="glitch" data-text="BIRUK & MIHRET">BIRUK & MIHRET</div>
+        </div>
+        <div class="typing-container">
+            Advanced Web Engineering in Progress...
+        </div>
+    </section>
+
+    <!-- 3D Showcase Section -->
+    <h1 class="section-title">The Power of Code</h1>
+    <section class="cards-container">
+        
+        <!-- Card 1 -->
+        <div class="glass-card" id="card1">
+            <div class="card-content">
+                <h2>HTML Tags?</h2>
+                <p>While others are learning &lt;h1&gt; and &lt;p&gt;, we manipulate the DOM, render Canvas graphics, and calculate 3D space offline.</p>
+                <button class="card-btn">Execute</button>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-card" id="card2">
+            <div class="card-content">
+                <h2>CSS Magic</h2>
+                <p>Welcome to Glassmorphism, Keyframe animations, Grid architectures, and dynamic CSS variables mapping our school uniform colors.</p>
+                <button class="card-btn">Render</button>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-card" id="card3">
+            <div class="card-content">
+                <h2>JavaScript Logic</h2>
+                <p>Algorithms rendering 60FPS particles, calculating mouse coordinates, and handling 3D tilt physics in real-time.</p>
+                <button class="card-btn">Compile</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal Section -->
+    <section class="terminal-container">
+        <div class="terminal-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+        </div>
+        <div class="terminal-body" id="terminal-text">
+            <div class="sys-text">> Initiating Arbegnoch IT Protocol...</div>
+            <div class="sys-text">> Target: Astound the IT Teacher.</div>
+            <div class="sys-text">> Injecting White & Green uniform palette... [SUCCESS]</div>
+            <div class="sys-text">> Loading Biruk_Mihret_Matrix.js... [100%]</div>
+            <div class="sys-text">> WARNING: Code complexity exceeds Grade 12 syllabus!</div>
+            <div class="sys-text">> SYSTEM OVERRIDE ACCEPTED. Welcome to the Matrix.</div>
+        </div>
+    </section>
+
+    <script>
+        /* =========================================
+           1. CUSTOM CURSOR LOGIC
+           ========================================= */
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with a slight delay using animate
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        /* =========================================
+           2. 3D CARD TILT EFFECT
+           ========================================= */
+        const cards = document.querySelectorAll('.glass-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element.
+                const y = e.clientY - rect.top;  // y position within the element.
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -15; // Max rotation 15deg
+                const rotateY = ((x - centerX) / centerX) * 15;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            // Reset transform when mouse leaves
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                card.style.transition = `transform 0.5s ease`;
+            });
+
+            // Remove transition when mouse enters so it tracks instantly
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = `none`;
+            });
+        });
+
+        /* =========================================
+           3. TERMINAL AUTO-TYPING LOGIC
+           ========================================= */
+        const sysTexts = document.querySelectorAll('.sys-text');
+        let textIndex = 0;
+
+        function revealTerminal() {
+            if (textIndex < sysTexts.length) {
+                sysTexts[textIndex].style.display = 'block';
+                textIndex++;
+                setTimeout(revealTerminal, 800); // 0.8 seconds delay between lines
+            }
+        }
+
+        // Trigger terminal when scrolled into view
+        const terminalObserver = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting) {
+                revealTerminal();
+                terminalObserver.disconnect();
+            }
+        });
+        terminalObserver.observe(document.querySelector('.terminal-container'));
+
+        /* =========================================
+           4. COMPLEX PARTICLE NETWORK (CANVAS API)
+           ========================================= */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray =[];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', function(event){
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Resize canvas dynamically
+        window.addEventListener('resize', function(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+
+        // Particle Object
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            
+            // Draw particle
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+
+            // Update particle position & mouse interaction
+            update() {
+                // Bounce off edges
+                if(this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if(this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+
+                // Collision detection with mouse (Push particles away)
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 10;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 10;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 10;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 10;
+                }
+                
+                // Move particle
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+
+        // Initialize particle network
+        function init() {
+            particlesArray =[];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 3) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 2) - 1;
+                let directionY = (Math.random() * 2) - 1;
+                
+                // Mix of White and Arbegnoch Green
+                let color = Math.random() > 0.5 ? '#ffffff' : '#00ff41'; 
+                
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Draw lines connecting particles
+        function connect() {
+            let opacityValue = 1;
+            for(let a = 0; a < particlesArray.length; a++) {
+                for(let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        // Draw line with dynamic opacity based on distance
+                        ctx.strokeStyle = `rgba(0, 255, 65, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        // Start the magic
+        init();
+        animate();
+
+        // When mouse leaves window, reset mouse object to avoid stuck particles
+        window.addEventListener('mouseout', () => {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+    </script>
+</body>
+</html>
