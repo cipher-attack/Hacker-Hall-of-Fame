@@ -22,9 +22,6 @@
     <!-- START_WALL -->
 <br/>
 <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-    <a href="https://github.com/cipher-attack" title="cipher-attack">
-      <img src="https://avatars.githubusercontent.com/u/190141977?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="cipher-attack">
-    </a>
     <a href="https://github.com/unkownsacks-png" title="unkownsacks-png">
       <img src="https://avatars.githubusercontent.com/u/250751322?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="unkownsacks-png">
     </a>
@@ -42,6 +39,12 @@
     </a>
     <a href="https://github.com/unknown-sacks" title="unknown-sacks">
       <img src="https://avatars.githubusercontent.com/u/250750878?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="unknown-sacks">
+    </a>
+    <a href="https://github.com/bezaworkbeza845-alt" title="bezaworkbeza845-alt">
+      <img src="https://avatars.githubusercontent.com/u/307886053?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="bezaworkbeza845-alt">
+    </a>
+    <a href="https://github.com/tegbarum62-ai" title="tegbarum62-ai">
+      <img src="https://avatars.githubusercontent.com/u/342958322?v=4" width="55" height="55" style="border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0px 0px 8px rgba(255, 215, 0, 0.6);" alt="tegbarum62-ai">
     </a></div>
 <br/>
 <!-- END_WALL -->
